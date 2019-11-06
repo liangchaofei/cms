@@ -1,0 +1,32 @@
+.menu {
+    line-height: 64px;
+}
+.contentWrap {
+    padding: 0 50px;
+}
+.content {
+    background: #fff;
+    padding: 24px;
+    min-height: 480px;
+}
+.footer {
+    text-align: center;
+}
+.trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+.trigger:hover {
+    color: #1890ff;
+  }
+ .logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
+  }
+  #blog_menu .ant-menu-item a{
+    display: inline-block;
+  }
