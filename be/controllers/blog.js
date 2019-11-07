@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-11-01 11:02:54
- * @LastEditTime: 2019-11-04 17:52:24
+ * @LastEditTime: 2019-11-06 22:19:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /stc/controllers/blog.js
@@ -20,7 +20,8 @@ class blogController {
             ctx.body = {
                 code: 200,
                 msg: 'success',
-                data
+                data,
+                count:data.length
             }
         }catch(err){
             ctx.response.status = 412;
@@ -54,12 +55,31 @@ class blogController {
         }else{
            ctx.response.status = 416
            ctx.body = {
-               code:412,
+               code:416,
                msg:'参数不全',
            }
         }
     }
-
+    // 更新blog 
+    static async updateBlog(ctx){
+        let req = ctx.request.body;
+        console.log('req',req)
+        try{
+            let data = await BlogModel.updateBlog(req)
+            ctx.response.status = 200;
+            ctx.body = {
+                code: 200,
+                msg: 'success',
+            }
+        }catch(err){
+            ctx.response.status = 412;
+            ctx.body = {
+                code: 412,
+                msg: 'error',
+                err
+            }
+        }
+    }
     static async deleteBlog(ctx){
         let id = ctx.params.id;
         if(id){

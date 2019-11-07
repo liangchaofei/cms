@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-11-01 11:43:21
- * @LastEditTime: 2019-11-04 18:04:22
+ * @LastEditTime: 2019-11-06 22:21:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /stc/modules/blog.js
@@ -14,10 +14,15 @@ Blog.sync({force: false})
 class BlogModel {
 
     static async getAllBlog(query){
+        const {current , pageSize} = query;
+        let offset = (current -1 ) * pageSize;
         return await Blog.findAll({
             where: {
                 ...query
-            }
+            },
+            order:[
+                ["id","DESC"]
+            ],
         })
       
     }
@@ -29,6 +34,24 @@ class BlogModel {
             author: data.author,
             content: data.content,
         })
+    }
+    // update blog 
+    static async updateBlog(data){
+        const {id,title,author,content} = data;
+        console.log('id',id)
+        return await Blog.update(
+            {
+                title,
+                author,
+                content,
+                id
+            },
+            {
+                where:{
+                    id
+                }
+            }
+        )
     }
     static async deleteBlogs(id){
         return await Blog.destroy({

@@ -4,7 +4,8 @@ import { Layout, Menu, ConfigProvider, Icon } from 'antd';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 
 import Employee from './employee';
-import AddBlog from './addblog'
+import AddBlog from './addblog';
+import EditBlog from './editblog';
 // import Setting from './setting';
 import './App.css';
 
@@ -24,8 +25,8 @@ const App = ({ match }: any) => {
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
         <Menu theme="dark" mode="inline" id="blog_menu"  defaultSelectedKeys={[defaultKey]}>
-            <Menu.Item key="employee"><Icon type="user" /><Link to="/employee">管理</Link></Menu.Item>
-            <Menu.Item key="addblog"><Icon type="user" /><Link to="/addblog">增加</Link></Menu.Item>
+            <Menu.Item key="employee"><Icon type="user" /><Link to="/employee">文章管理</Link></Menu.Item>
+            <Menu.Item key="addblog"><Icon type="user" /><Link to="/addblog">添加文章</Link></Menu.Item>
         </Menu>
       </Sider>
       <Layout>
@@ -48,6 +49,7 @@ const App = ({ match }: any) => {
           <Route path="/" exact component={Employee} />
           <Route path="/employee"  component={Employee} />
           <Route path="/addblog" component={AddBlog} />
+          <Route path="/editblog/:id" component={EditBlog} />
         </div>
           </Content>
       </Layout>

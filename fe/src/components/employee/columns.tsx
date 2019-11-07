@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Divider, Popconfirm } from 'antd';
+import { Button, Divider, Popconfirm, DatePicker } from 'antd';
+import moment from 'moment'
 
 import {
     EmployeeInfo,
@@ -30,7 +31,12 @@ const getColunms = (
         }, {
             title: '时间',
             dataIndex: 'createdAt',
-            key: 'createdAt'
+            key: 'createdAt',
+            render: (createdAt: any) => {
+                return (
+                    <div>{moment().format('YYYY-MM-DD HH:mm:ss')}</div>
+                )
+            }
         }, {
             title: '操作',
             key: 'action',

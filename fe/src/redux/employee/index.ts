@@ -1,15 +1,15 @@
 /*
  * @Author: your name
  * @Date: 2019-10-29 15:38:24
- * @LastEditTime: 2019-11-04 18:47:44
+ * @LastEditTime: 2019-11-06 22:23:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /ts-redux/src/redux/employee/index.ts
  */
 import { Dispatch } from 'redux';
 import _ from 'lodash';
-
-import { get, post, del } from '../../utils/request';
+import { message } from 'antd';
+import { get, post, del ,put} from '../../utils/request';
 import { department, level } from '../../constants/options';
 
 import {
@@ -17,6 +17,7 @@ import {
     CREATE_EMPLOYEE_URL,
     DELETE_EMPLOYEE_URL,
     UPDATE_EMPLOYEE_URL,
+    UPDATE_Blog_URL,
     CREATE_BLOG_URL,
 } from '../../constants/urls';
 
@@ -25,7 +26,8 @@ import {
     CREATE_EMPLOYEE,
     DELETE_EMPLOYEE,
     UPDATE_EMPLOYEE,
-    CREATE_BLOG
+    CREATE_BLOG,
+    UPDATE_BLOG,
 } from '../../constants/actions';
 
 import {
@@ -65,14 +67,17 @@ export  function getEmployee(param: EmployeeRequest, callback: () => void) {
 
 export function createBlog(param: CreateBlogRequest, callback: () => void){
     return (dispatch: Dispatch) => {
-        post(CREATE_BLOG_URL, param).then(res => {
+        post(CREATE_BLOG_URL, param).then((res: any) => {
+            if(res.code === 200){
+                message.success(res.msg)
+            }
             dispatch({
                 type: CREATE_BLOG,
                 payload: {
                     title: param.title,
                     author: param.author,
                     content: param.content,
-                    ...res
+                    ...res.data
                 }
             });
         });
@@ -109,6 +114,19 @@ export function deleteEmployee(param: DeleteRequest) {
         });
     }
 }
+export function updateBlog(param: UpdateRequest) {
+    return (dispatch: Dispatch) => {
+        put(UPDATE_Blog_URL, param).then((res: any) => {
+            if(res.code === 200){
+                message.success(res.msg)
+            }
+            dispatch({
+                type: UPDATE_BLOG,
+                payload: param
+            });
+        });
+    }
+}
 
 export function updateEmployee(param: UpdateRequest, callback: () => void) {
     return (dispatch: Dispatch) => {
@@ -136,23 +154,36 @@ export default function(state = initialState, action: Action) {
                 employeeList: newList
             }
         case CREATE_BLOG:
-                console.log('action', action)
-                console.log('state',state)
-                let newBlog = [action.payload]
-                console.log('newBlog', action.payload)
-                return {
-                    employeeList: action.payload,
-                    ...state
-                }
+            let newBlog = [action.payload]
+            return {
+                ...state,
+                employeeList: newBlog
+            }
         case DELETE_EMPLOYEE:
             let reducedList = [...(state.employeeList as EmployeeInfo[])];
             _.remove(reducedList, (item: EmployeeInfo) => {
-                return item.id === action.payload
+                return item.id === action.payload.id
             });
             return {
                 ...state,
                 employeeList: reducedList
             }
+        case UPDATE_BLOG:
+                let updatedList = [...(state.employeeList as EmployeeInfo[])];
+                let item: UpdateRequest = action.payload;
+                let index = _.findIndex(updatedList, {
+                    id: item.id
+                });
+                updatedList[index] = {
+                    id: item.id,
+                    title: item.title,
+                    author: item.author,
+                    content:item.content,
+                }
+                return {
+                    ...state,
+                    employeeList: updatedList
+                }
         // case UPDATE_EMPLOYEE:
         //     let updatedList = [...(state.employeeList as EmployeeInfo[])];
         //     let item: UpdateRequest = action.payload;

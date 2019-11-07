@@ -23,10 +23,7 @@ class QueryForm extends Component<Props, EmployeeRequest> {
         });
     }
     handleReset = () => {
-        this.setState({
-            title: undefined,
-            departmentId: undefined
-        });
+        this.queryEmployee({})
     }
     handleSubmit = () => {
         this.queryEmployee(this.state);

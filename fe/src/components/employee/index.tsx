@@ -32,6 +32,7 @@ interface Props {
     onDeleteEmployee(param: DeleteRequest): void;
     onUpdateEmployee(param: UpdateRequest, callback: () => void): void;
     employeeList: EmployeeResponse;
+    history: any;
 }
 
 interface State {
@@ -71,14 +72,11 @@ class Employee extends Component<Props, State> {
         this.props.onDeleteEmployee(param)
     }
     handleUpdate = (record: EmployeeInfo) => {
-        this.setState({
-            showModal: true,
-            edit: true,
-            rowData: record
-        });
+        this.props.history.push(`/editblog/${record.id}`)
     }
-    handleDownload = () => {
-        window.open(DOWNLOAD_EMPLOYEE_URL);
+    changePage = (pagination: any) => {
+        const { current, pageSize} = pagination;
+        this.props.onGetEmployee(pagination,()=>{})
     }
     render() {
         const {
@@ -95,7 +93,6 @@ class Employee extends Component<Props, State> {
                     dataSource={employeeList}
                     loading={this.state.loading}
                     className="table"
-                    pagination={false}
                 />
             </>
         )
