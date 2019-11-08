@@ -2,7 +2,7 @@
 import { department } from '../constants/options';
  * @Author: your name
  * @Date: 2019-10-23 20:50:49
- * @LastEditTime: 2019-11-06 22:09:09
+ * @LastEditTime: 2019-11-08 11:15:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /ts-redux/src/interface/employee.ts
@@ -22,8 +22,21 @@ export interface EmployeeRequest {
     departmentId?: number;
 }
 
+export interface CommentResponse2 {
+    id?: number;
+    comment?: any;
+} 
+export type CommentResponse = CommentResponse2[] | undefined
+export interface CommentRequest {
+    id?: number;
+    comment?: any;
+}
 export type EmployeeResponse = EmployeeInfo[] | undefined
 
+export interface Loginrequest {
+    username: any;
+    password: any;
+}
 export interface CreateRequest {
     name: string;
     departmentId: number;
@@ -46,4 +59,13 @@ export interface UpdateRequest {
 
 export interface DeleteRequest {
     id: number;
+}
+
+export interface LoginRequest{
+    username: any;
+    password: any;
+}
+export interface LoginResponse {
+    code: number;
+    msg: string;
 }

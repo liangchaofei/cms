@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
-import { Form, Input, Button, DatePicker, Modal } from 'antd';
+import { Form, Input, Button, DatePicker, Modal, Upload, message, Icon } from 'antd';
 import { createBlog } from '../../redux/employee' 
 import MdEditor from 'react-markdown-editor-lite';
 import MarkdownIt from 'markdown-it';
@@ -12,10 +12,13 @@ interface Props {
     history: any;
     onCreateBlog: (param:CreateBlogRequest) => void;
     employeeList: EmployeeResponse;
+    onUploadImg: () => void;
 }
 
 interface State {
     MOCK_DATA: any;
+    loading: boolean;
+    imageUrl: string;
 }
 class AddBlog extends Component<Props, State> {
     mdParser = null;
@@ -25,7 +28,9 @@ class AddBlog extends Component<Props, State> {
         this.mdParser = new MarkdownIt(/* Markdown-it options */);
     }
     state: State = {
-        MOCK_DATA: ''
+        MOCK_DATA: '',
+        loading: false,
+        imageUrl: '',
     }
 
     handleEditorChange = (content: any) => {
@@ -43,23 +48,50 @@ class AddBlog extends Component<Props, State> {
           if (!err) {
 
             let res = this.props.onCreateBlog(values)
-            console.log('res',res)
-            // if(res.code === 1 ){
-            //   Modal.confirm({
-            //     title: '创建成功!是否查看？',
-            //     onOk: () => this.props.history.push(`/employee`),
-            //   });
-            // }else{
-            //   Modal.confirm({
-            //     title: res.msg,
-            //   });
-            // }
           }
         });
     }
+     beforeUpload = (file: { type: string; size: number; }) => {
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isJpgOrPng) {
+          message.error('You can only upload JPG/PNG file!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          message.error('Image must smaller than 2MB!');
+        }
+        return isJpgOrPng && isLt2M;
+      }
+
+      handleChange = (info: any) => {
+        if (info.file.status === 'uploading') {
+          this.setState({ loading: true });
+          return;
+        }
+        if (info.file.status === 'done') {
+          // Get this url from response in real world.
+          this.getBase64(info.file.originFileObj, (imageUrl: any) =>
+            this.setState({
+              imageUrl,
+              loading: false,
+            }),
+          );
+        }
+      };
+       getBase64 = (img: Blob, callback: (arg0: string | ArrayBuffer | null) => void) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+      }
     render() {
         const { form: { getFieldDecorator } } = this.props;
-        const { MOCK_DATA } = this.state;
+        const { MOCK_DATA, imageUrl } = this.state;
+        const uploadButton = (
+            <div>
+              <Icon type={this.state.loading ? 'loading' : 'plus'} />
+              <div className="ant-upload-text">Upload</div>
+            </div>
+          );
         return (
             <div>
                 <Form onSubmit={this.handleSubmit} className="login-form">
@@ -108,7 +140,7 @@ const mapStateToProps = (state: any) => ({
     employeeList: state.employee.employeeList
 });
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-    onCreateBlog: createBlog
+    onCreateBlog: createBlog,
 },dispatch)
 
 export default connect(mapStateToProps,mapDispatchToProps)(Form.create()(AddBlog));

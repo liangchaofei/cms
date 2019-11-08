@@ -1,34 +1,28 @@
 /*
  * @Author: your name
  * @Date: 2019-11-01 11:52:39
- * @LastEditTime: 2019-11-07 18:33:19
+ * @LastEditTime: 2019-11-07 22:07:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /stc/schema/blog.js
  */
-const moment = require('moment')
-const blog = (sequelize, DataTypes) => {
-    return sequelize.define('blog',{
-        id:{
+// import blogs from './blog'
+const comment = (sequelize, DataTypes) => {
+    return sequelize.define('comment',{
+        cid:{
             type:DataTypes.INTEGER,
             primaryKey:true,
             allowNull:true,
             autoIncrement:true
         },
-        title: {
+        comment: {
             type: DataTypes.STRING,
             allowNull: false,
-            field: 'title'
+            field: 'comment'
         },
-        author: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            field: 'author'
-        },
-        content: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            field: 'content'
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         },
         createdAt:{
             type:DataTypes.DATE
@@ -45,4 +39,5 @@ const blog = (sequelize, DataTypes) => {
         freezeTableName: false
     })
 }
-module.exports =  blog
+// blogs.belongsTo(comment, { foreignKey: 'cid', targetKey: 'id', as: 'blogs' });
+module.exports = comment;

@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2019-10-15 09:56:22
- * @LastEditTime: 2019-11-03 14:08:50
- * @LastEditors: your name
+ * @LastEditTime: 2019-11-07 15:51:00
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /stc_fe/src/setupProxy.js
  */

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-11-01 11:43:21
- * @LastEditTime: 2019-11-06 22:21:56
+ * @LastEditTime: 2019-11-07 18:32:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /stc/modules/blog.js
@@ -14,8 +14,6 @@ Blog.sync({force: false})
 class BlogModel {
 
     static async getAllBlog(query){
-        const {current , pageSize} = query;
-        let offset = (current -1 ) * pageSize;
         return await Blog.findAll({
             where: {
                 ...query

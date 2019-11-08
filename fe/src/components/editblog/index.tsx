@@ -32,8 +32,7 @@ class EditBlog extends Component<Props, State> {
     }
     componentDidMount(){
         const { pathname } = window.location
-        const id = parseInt(pathname.substring(10))
-        console.log('id', id)
+        const id = parseInt(pathname.substring(16))
         this.setState({id})
         this.props.onGetEmployee({id},() => {})
     }

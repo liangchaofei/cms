@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-11-01 10:22:32
- * @LastEditTime: 2019-11-01 12:07:55
+ * @LastEditTime: 2019-11-08 13:43:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /my_blog/app.js
@@ -17,6 +17,7 @@ const logger = require('koa-logger')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const blog = require('./routes/blog')
+const comment = require('./routes/comment')
 
 // error handler
 onerror(app)
@@ -44,6 +45,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(blog.routes(), blog.allowedMethods())
+app.use(comment.routes(),comment.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

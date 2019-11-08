@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-15 09:56:22
- * @LastEditTime: 2019-11-06 22:19:00
+ * @LastEditTime: 2019-11-07 16:43:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /stc_fe/src/utils/request.ts
@@ -9,6 +9,7 @@
 import originAxios from 'axios';
 import { message } from 'antd';
 import { string } from 'prop-types';
+import qs from 'qs'
 
 const axios = originAxios.create({
     timeout: 20000
@@ -46,7 +47,7 @@ export function post(url: string, data: any) {
     return axios({
         method: 'post',
         url,
-        data
+        data:qs.stringify(data)
     });
 };
 

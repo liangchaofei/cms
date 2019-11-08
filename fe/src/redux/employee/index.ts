@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-29 15:38:24
- * @LastEditTime: 2019-11-06 22:23:32
+ * @LastEditTime: 2019-11-08 11:19:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /ts-redux/src/redux/employee/index.ts
@@ -19,6 +19,10 @@ import {
     UPDATE_EMPLOYEE_URL,
     UPDATE_Blog_URL,
     CREATE_BLOG_URL,
+    UPLOAD_IMG,
+    GET_COMMENT_URL,
+    CREATE_COMMENT_URL,
+    USER_LOGIN_URL
 } from '../../constants/urls';
 
 import {
@@ -28,6 +32,9 @@ import {
     UPDATE_EMPLOYEE,
     CREATE_BLOG,
     UPDATE_BLOG,
+    GET_COMMENT,
+    CREATE_COMMENT,
+    USER_LOGIN
 } from '../../constants/actions';
 
 import {
@@ -37,11 +44,15 @@ import {
     CreateRequest,
     DeleteRequest,
     UpdateRequest,
-    CreateBlogRequest
+    CreateBlogRequest,
+    CommentRequest,
+    CommentResponse,
+    LoginRequest
 } from '../../interface/employee';
 
 type State = Readonly<{
     employeeList: EmployeeResponse
+    commentList: CommentResponse
 }>
 
 type Action = {
@@ -50,7 +61,8 @@ type Action = {
 }
 
 const initialState: State = {
-    employeeList: undefined
+    employeeList: undefined,
+    commentList: undefined
 }
 
 export  function getEmployee(param: EmployeeRequest, callback: () => void) {
@@ -65,6 +77,45 @@ export  function getEmployee(param: EmployeeRequest, callback: () => void) {
     }
 }
 
+export function getComment(param: CommentRequest, callback:() => void ){
+    return (dispatch: Dispatch) => {
+        get(GET_COMMENT_URL,param).then(res => {
+            dispatch({
+                type: GET_COMMENT,
+                payload: res.data
+            })
+            callback()
+        })
+    }
+} 
+export function addComment(param:CommentRequest){
+    return (dispatch: Dispatch) => {
+        post(CREATE_COMMENT_URL,param).then((res:any) => {
+            if(res.code === 200){
+                message.success(res.msg)
+            }
+            console.log('res', res)
+            dispatch({
+                type: CREATE_COMMENT,
+                payload:{
+                    id:param.id,
+                    comment:param.comment,
+                    ...res.data
+                }
+            })
+        })
+    }
+}
+
+export function user_login(param: LoginRequest, callback: () => void){
+    return (dispatch: Dispatch) => {
+        post(USER_LOGIN_URL,param).then((res: any) => {
+            dispatch({
+                type: USER_LOGIN,
+            })
+        })
+    }
+}
 export function createBlog(param: CreateBlogRequest, callback: () => void){
     return (dispatch: Dispatch) => {
         post(CREATE_BLOG_URL, param).then((res: any) => {
@@ -147,11 +198,22 @@ export default function(state = initialState, action: Action) {
                 ...state,
                 employeeList: action.payload
             }
+        case GET_COMMENT:
+            return {
+                ...state,
+                commentList: action.payload
+            }
         case CREATE_EMPLOYEE:
             let newList = [action.payload, ...(state.employeeList as EmployeeInfo[])]
             return {
                 ...state,
                 employeeList: newList
+            }
+        case CREATE_COMMENT:
+            let newComment = [action.payload, ...(state.commentList as CommentResponse[])]
+            return {
+                ...state,
+                commentList: newComment
             }
         case CREATE_BLOG:
             let newBlog = [action.payload]

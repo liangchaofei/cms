@@ -1,0 +1,8 @@
+.article_li{
+    height: 40px;
+    line-height: 40px;
+    list-style: none;
+}
+.article_li:hover{
+    background: #eee;
+}

@@ -72,7 +72,7 @@ class Employee extends Component<Props, State> {
         this.props.onDeleteEmployee(param)
     }
     handleUpdate = (record: EmployeeInfo) => {
-        this.props.history.push(`/editblog/${record.id}`)
+        this.props.history.push(`/admin_editblog/${record.id}`)
     }
     changePage = (pagination: any) => {
         const { current, pageSize} = pagination;
