@@ -19,7 +19,7 @@ interface Props {
 
 interface State {
 }
-class Home extends Component<Props, State> {
+class All extends Component<Props, State> {
     state: State = {
     }
     componentDidMount() {
@@ -29,22 +29,14 @@ class Home extends Component<Props, State> {
     render() {
         const { form: { getFieldDecorator }, employeeList } = this.props;
         const data = employeeList || [];
-        let newData: any[] =[];
-        for(let i = 0;i<data.length;i++){
-            if(i<5){
-                newData.push(data[i])
-            }
-        }
         return (
             <div>
                 <Row type="flex">
-                    <Col span={16}>
-                        <span style={{fontSize: 16}}>最新文章</span>
-                        <Link style={{float: 'right'}} to="/all">更多</Link>
+                    <Col span={24}>
                         <Card bordered={false}>
                             <ul style={{padding: 0}}>
                                 {
-                                    newData.map((item:any,index:number) => {
+                                    data.map((item:any,index:number) => {
                                         return (
                                             <li key={index} className="article_li">
                                                 <Col span={16}>
@@ -61,8 +53,6 @@ class Home extends Component<Props, State> {
                             </ul>
                         </Card>
                     </Col>
-                    <Col span={8}>
-                    </Col>
                 </Row>
             </div>
         )
@@ -76,4 +66,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     onGetEmployee: getEmployee,
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(All));

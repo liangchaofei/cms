@@ -24,6 +24,7 @@ import {
   EmployeeResponse,
   EmployeeRequest
 } from "../../interface/employee";
+import { thisExpression } from "@babel/types";
 interface Props {
   form: any;
   history: any;
@@ -41,7 +42,9 @@ class Login extends Component<Props, State> {
       if (!err) {
           delete values.remember;
         console.log("Received values of form: ", values);
-        this.props.onLogin(values,() => {})
+        this.props.onLogin(values,() => {
+            this.props.history.push('/index')
+        })
       }
     });
   };

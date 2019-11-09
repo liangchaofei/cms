@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-11-08 11:27:56
- * @LastEditTime: 2019-11-08 16:58:47
+ * @LastEditTime: 2019-11-08 22:16:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /cms/be/modules/users.js
@@ -30,6 +30,13 @@ class UserModule {
             where:{
                 id
             }
+        })
+    }
+
+    static async addUsers(query){
+        return await User.create({
+            username: query.username,
+            password:query.password
         })
     }
 }

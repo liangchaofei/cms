@@ -13,6 +13,7 @@ import Home from './Home';
 import Time from './Time'
 import Login from './Login'
 import Users from './Users'
+import All from './All'
 // import Setting from './setting';
 import './App.css';
 
@@ -34,9 +35,7 @@ const App = ({ match }: any) => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-          退出
-        </a>
+        <Link to="/login">退出</Link>
       </Menu.Item>
     </Menu>
   );
@@ -113,9 +112,10 @@ const App = ({ match }: any) => {
                 <Route path="/index" component={Home} />
                 <Route path="/blog/:id" component={Blog} />
                 <Route path="/timeline" component={Time} />
+                <Route path="/all" component={All} />
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+          <Footer style={{ textAlign: 'center' }}>@liangchaofei</Footer>
         </Layout>
     }
 

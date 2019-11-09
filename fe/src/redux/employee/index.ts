@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-10-29 15:38:24
- * @LastEditTime: 2019-11-08 11:19:59
+ * @LastEditTime: 2019-11-08 22:19:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /ts-redux/src/redux/employee/index.ts
@@ -113,6 +113,7 @@ export function user_login(param: LoginRequest, callback: () => void){
             dispatch({
                 type: USER_LOGIN,
             })
+            callback()
         })
     }
 }

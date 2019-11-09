@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-11-08 11:26:22
- * @LastEditTime: 2019-11-08 17:33:58
+ * @LastEditTime: 2019-11-08 22:16:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /cms/be/controllers/users.js
@@ -12,7 +12,6 @@ class UserControler {
         const { query } = ctx.request;
         try{
             const data = await UserModule.getUsers(query)
-            console.log('data', data)
             ctx.response.status = 200;
             ctx.body = {
                 code: 200,
@@ -62,10 +61,21 @@ class UserControler {
     static async login(ctx){
         const query = ctx.request.body;
         if(query.password && query.username){
-            const data = await UserModule.getUsers({username: query.username})
-            console.log('username', data)
-            ctx.body  = {
-                data
+            try{
+                const data = await UserModule.addUsers(query)
+                ctx.response.status = 200;
+                ctx.body = {
+                    code: 200,
+                    msg: 'success',
+                    data
+                }
+            }catch(err){
+                ctx.response.status = 412;
+                ctx.body = {
+                    code: 412,
+                    msg:'error',
+                    err
+                }
             }
         }else{
             ctx.response.status = 416;
