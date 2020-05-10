@@ -1,12 +1,24 @@
 <!--
  * @Author: your name
  * @Date: 2019-11-09 23:02:06
- * @LastEditTime: 2019-11-09 23:13:29
+ * @LastEditTime: 2020-05-10 18:56:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /cms/README.md
  -->
 # react全家桶 + ts + koa写的一个博客管理系统和博客展示系统
+
+## 界面展示
+![avatar](/static/640.jpeg)
+
+![avatar](/static/641.png)
+
+![avatar](/static/642.jpeg)
+
+![avatar](/static/643.png)
+
+![avatar](/static/644.png)
+
 
 ## FE 用法
 
